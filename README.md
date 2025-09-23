@@ -10,7 +10,9 @@ Minimal viable Ansible project for bootstrapping a system with `ansible-pull`.
 
 - `README.md` - Shows project structure and how to run
 - `ansible.cfg` - Minimal config (set roles_path, inventory, etc.)
-- `site.yml` - Main playbook calling roles
+- `local.yml` - Main playbook calling roles
+- **bin/**
+  - `setup-pull.yml` - Initial ansible-pull setup automation
 - **inventory/**
   - `hosts.yml` - Define localhost and group mapping
 - **roles/**
