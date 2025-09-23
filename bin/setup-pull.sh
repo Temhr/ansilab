@@ -5,7 +5,7 @@ LOGFILE="/home/temhr/ansi-setup.log"
 
 # Set timezone (systemd only)
 if command -v timedatectl >/dev/null 2>&1; then
-  sudo timedatectl set-timezone "Canada/Eastern"
+  sudo timedatectl set-timezone "America/Toronto"
 fi
 
 # Update & upgrade system
