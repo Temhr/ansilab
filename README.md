@@ -22,7 +22,6 @@ Minimal viable Ansible project for bootstrapping a system with `ansible-pull`.
 
 ## Usage
 
-Run the following command on any new system or VM:
+Run the following command to bootstrap any new system or VM: `curl -fsSL https://raw.githubusercontent.com/Temhr/ansilab/refs/heads/main/bin/setup-pull.sh | sudo bash`
 
-```bash
-ansible-pull -U https://github.com/temhr/ansilab.git
+Run the following command to update systems: `ansible-pull -U https://github.com/temhr/ansilab.git`
