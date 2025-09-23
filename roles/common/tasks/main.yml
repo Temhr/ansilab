@@ -1,0 +1,11 @@
+---
+# Example tasks for baseline setup
+- name: Update apt package cache
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Ensure vim is installed
+  ansible.builtin.package:
+    name: vim
+    state: present
