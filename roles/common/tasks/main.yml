@@ -5,8 +5,12 @@
   - ansible.builtin.import_tasks: users/temhr.yml
   - ansible.builtin.import_tasks: users/ansibot.yml
 
-  # Setup the ansible environment
+  # Setup the ansible automation
   - ansible.builtin.import_tasks: systemd/ansible-pull.yml
+
+  # install packages
+  - ansible.builtin.import_tasks: packages/utilities.yml
+  - ansible.builtin.import_tasks: packages/cleanup.yml
   
   rescue:
     - name: Log the error and continue
