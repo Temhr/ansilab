@@ -32,8 +32,21 @@
     group: root
     mode: '0440'                    # Required mode for sudoers file
 
+- name: users | Temhr | create default home directories
+  tags: dotfiles,users,temhr
+  ansible.builtin.file:
+    path: /home/temhr/{{ item.dir }}
+    state: directory
+    owner: temhr
+    group: temhr
+    mode: 0770
+  with_items:
+    - { dir: '.bash' }
+    - { dir: '.config' }
+    - { dir: 'bin' }
+
 - name: users | Temhr | copy dotfiles
-  tags: dotfiles,users,temhr,users
+  tags: dotfiles,users,temhr
   ansible.builtin.copy:
     src: files/users/temhr/{{ item.src }}
     dest: /home/temhr/{{ item.dest }}
