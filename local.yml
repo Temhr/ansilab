@@ -11,11 +11,3 @@
   become: true                            # Run tasks with sudo
   roles:                                  # Apply these roles
     -                                     # List of Roles
-
-- name: Configure localhost only          # Fourth play: special case for localhost
-  hosts: localhost                        # Target only the local machine
-  become: true                            # Run tasks with sudo
-  tasks:                                  # Inline tasks (instead of roles)
-    - name: Print debug message           # Simple test/debug task
-      ansible.builtin.debug:              # Debug module outputs a message
-        msg: "Configuring localhost with inline tasks"
