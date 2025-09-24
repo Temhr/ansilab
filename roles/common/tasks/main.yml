@@ -1,11 +1,9 @@
 ---
-# Example tasks for baseline setup
-- name: Update apt package cache
-  ansible.builtin.apt:
-    update_cache: yes
-  when: ansible_os_family == "Debian"
+# Main task list for baseline setup
+- block:
+  # Ensure users' existence
+  - ansible.builtin.import_tasks: users/temhr.yml
+  - ansible.builtin.import_tasks: users/ansibot.yml
 
-- name: Ensure vim is installed
-  ansible.builtin.package:
-    name: vim
-    state: present
+  # Setup the ansible environment
+  - ansible.builtin.import_tasks: systemd/ansible-pull.yml
