@@ -1,27 +1,28 @@
 ---
-- name: users | ansibot | create ansibot user
+- name: users | ansibot | create ansibot system user (no home)
   tags: always
   ansible.builtin.user:
-    name: ansibot
-    group: ansibot              # Give ansibot its own group, not "root"
-    create_home: true           # Automatically create /home/ansibot
-    shell: /bin/bash            # Optional: assign login shell
-    state: present
+    name: ansibot                                               # Username = "ansibot"
+    group: ansibot                                              # Assign to primary group "ansibot" (must exist or be created)
+    system: true                                                # Mark as a system account (UID < 1000, for services)
+    shell: /usr/sbin/nologin                                    # No login shell, prevents interactive logins
+    create_home: false                                          # Do NOT create a home directory
+    state: present                                              # Ensure the user exists (idempotent)
 
 - name: users | ansibot | add sudoers file
   tags: settings,ansibot,sudo,system,users
   ansible.builtin.copy:
-    src: files/users/sudoers_ansibot   # File in your repo with sudo rules
-    dest: /etc/sudoers.d/ansibot       # Installed into system sudoers dir
-    owner: root
-    group: root
-    mode: '0440'
+    src: files/users/sudoers_ansibot                            # Source file in repo with sudo rules
+    dest: /etc/sudoers.d/ansibot                                # Install into system sudoers directory
+    owner: root                                                 # File owned by root
+    group: root                                                 # Group owned by root
+    mode: '0440'                                                # Read-only, required for sudoers
 
-- name: users | ansibot | Home directory permissions
+- name: users | ansibot | working directory
   tags: ansibot,users
-  ansible.builtin.file:
-    path: /home/ansibot                # Ensure home directory exists
-    state: directory
-    owner: ansibot
-    group: ansibot                     # Own group, safer than "root"
-    mode: '0750'                       # Restrictive: user+group can enter, others denied
+  ansible.builtin.file:                                         # Use the "file" module to manage directories
+    path: /var/lib/ansibot                                      # Path where ansibot stores files (service convention)
+    state: directory                                            # Ensure it's a directory
+    owner: ansibot                                              # Owned by ansibot user
+    group: ansibot                                              # Owned by ansibot group
+    mode: '0750'                                                # Only ansibot+group can enter, others denied
