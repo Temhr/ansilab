@@ -1,11 +1,12 @@
 ---
 - name: users | ansibot | create ansibot group
+  tags: always,ansibot,users
   ansible.builtin.group:
     name: ansibot
     state: present
 
 - name: users | ansibot | create ansibot system user (no home)
-  tags: always
+  tags: always,ansibot,users
   ansible.builtin.user:
     name: ansibot                                               # Username = "ansibot"
     group: ansibot                                              # Assign to primary group "ansibot" (must exist or be created)
