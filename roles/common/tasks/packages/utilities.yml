@@ -11,6 +11,7 @@
       - curl
       - ethtool
       - fastfetch
+      - fzf
       - gcc
       - git
       - htop
@@ -33,3 +34,4 @@
       - vim
       - wget
       - whois
+      - zoxide
