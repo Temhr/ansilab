@@ -1,0 +1,27 @@
+---
+- name: users | ansibot | create ansibot user
+  tags: always
+  ansible.builtin.user:
+    name: ansibot
+    group: ansibot              # Give ansibot its own group, not "root"
+    create_home: true           # Automatically create /home/ansibot
+    shell: /bin/bash            # Optional: assign login shell
+    state: present
+
+- name: users | ansibot | add sudoers file
+  tags: settings,ansibot,sudo,system,users
+  ansible.builtin.copy:
+    src: files/users/sudoers_ansibot   # File in your repo with sudo rules
+    dest: /etc/sudoers.d/ansibot       # Installed into system sudoers dir
+    owner: root
+    group: root
+    mode: '0440'
+
+- name: users | ansibot | Home directory permissions
+  tags: ansibot,users
+  ansible.builtin.file:
+    path: /home/ansibot                # Ensure home directory exists
+    state: directory
+    owner: ansibot
+    group: ansibot                     # Own group, safer than "root"
+    mode: '0750'                       # Restrictive: user+group can enter, others denied
