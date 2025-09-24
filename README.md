@@ -7,11 +7,11 @@ ansible-pull implementation for my mutable Linux systems, VMs, and containers
 
 - `README.md` - Project structure, How to's
 - `ansible.cfg` - Minimal config (set roles_path, inventory, etc.)
-- `local.yml` - Main playbook calling roles
+- `local.yml` - Main playbook, assigns hosts to roles
 - **bin/** - *Utility and helper scripts*
   - `setup-pull.sh` - Bootstrapping script
-- **inventory/** - *Targets and their configuration variables*
-  - `hosts.yml` - Defines localhost and group mapping
+- **inventory/** - *Targets and their config vars*
+  - `hosts.yml` - Defines hosts and groups
 - **roles/** - *Automation modules (by purpose)*
   - **common/** - *Base system setup*
     - **files/** - *Static files for hosts*
