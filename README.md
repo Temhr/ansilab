@@ -1,8 +1,5 @@
 # ansilab
-Ansible implementation for my mutable Linux systems, VMs, and containers
-
-#
-Minimal viable Ansible project for bootstrapping a system with `ansible-pull`.
+ansible-pull implementation for my mutable Linux systems, VMs, and containers
 
 ---
 
@@ -12,7 +9,7 @@ Minimal viable Ansible project for bootstrapping a system with `ansible-pull`.
 - `ansible.cfg` - Minimal config (set roles_path, inventory, etc.)
 - `local.yml` - Main playbook calling roles
 - **bin/** - *Utility and helper scripts*
-  - `setup-pull.sh` - Ansible bootstrap
+  - `setup-pull.sh` - Bootstrapping script
 - **inventory/** - *Targets and their configuration variables*
   - `hosts.yml` - Defines localhost and group mapping
 - **roles/** - *Automation modules (by purpose)*
