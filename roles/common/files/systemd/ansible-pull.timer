@@ -6,7 +6,7 @@ Requires=ansible-pull.service
 OnBootSec=5min
 OnUnitActiveSec=30min
 AccuracySec=1min
-Persistent=true
+Persistent=false  #test
 
 [Install]
 WantedBy=timers.target
