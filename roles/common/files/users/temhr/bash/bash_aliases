@@ -45,7 +45,7 @@ alias cdw='cd /var/www'
 alias ~='cd ~'
 
 # 4. 📜 File Viewing - Inspecting file contents and structure
-alias cat='bat --paging=never'  #Requires: bat
+#alias cat='bat --paging=never'  #Requires: bat
 alias diff='colordiff'
 alias egrep='egrep --colour=auto'
 alias ff='find . -type f -name'
