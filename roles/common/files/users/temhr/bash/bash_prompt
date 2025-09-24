@@ -1,115 +1,96 @@
 #!/usr/bin/env bash
-# Exit early if not in an interactive shell
-[[ $- != *i* ]] && return
+# Safe prompt initializer with emoji support and ANSI color escapes.
+# Intended to be sourced in an interactive shell (e.g. from .bashrc).
 
-# Get the directory of the current script
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# If not running interactively, return (if sourced) or exit (if executed)
+if [[ $- != *i* ]]; then
+  if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    # sourced but not interactive -> do nothing
+    return 0
+  else
+    # executed as a script but not interactive -> exit
+    exit 0
+  fi
+fi
 
-# Read emojis from a single-line, whitespace-separated file
-if [[ -f "${SCRIPT_DIR}/emoticons" ]]; then
-    # Use mapfile to handle the large emoji list more reliably
-    mapfile -t EMOJIS < <(tr ' ' '\n' < "${SCRIPT_DIR}/emoticons" | grep -v '^
+# Directory of this script (works when sourced)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# Function to select a random emoji
+# Path to an (optional) single-line whitespace-separated emoticons file
+EMOTICONS_FILE="${SCRIPT_DIR}/emoticons"
+
+# Load emojis into array EMOJIS
+if [[ -f "${EMOTICONS_FILE}" ]]; then
+  # Convert any whitespace to newlines, drop blank lines, load into array
+  mapfile -t EMOJIS < <(tr -s '[:space:]' '\n' < "${EMOTICONS_FILE}" | grep -v -E '^\s*$' || true)
+
+  # Fallback: if mapfile produced nothing, read as space-separated words
+  if [[ ${#EMOJIS[@]} -eq 0 ]]; then
+    read -ra EMOJIS <<< "$(cat "${EMOTICONS_FILE}")"
+  fi
+else
+  # Default set if file not present
+  EMOJIS=("😀" "😎" "🚀" "⭐" "🎉" "💻" "🔥" "✨")
+fi
+
+# Function to pick a random emoji from EMOJIS
 RANDOM_EMOJI() {
-    # Check if array has elements to prevent division by zero
-    if [[ ${#EMOJIS[@]} -gt 0 ]]; then
-        echo "${EMOJIS[RANDOM % ${#EMOJIS[@]}]}"
-    else
-        # Fallback if somehow still empty
-        echo "🤖"
-    fi
+  if (( ${#EMOJIS[@]} > 0 )); then
+    local idx=$(( RANDOM % ${#EMOJIS[@]} ))
+    printf '%s' "${EMOJIS[$idx]}"
+  else
+    printf '🤖'
+  fi
 }
 
-# ANSI 256 color escapes (properly wrapped in \[ \] for prompt alignment)
-BRACKET_COLOR="\[\033[38;5;35m\]"
-CLOCK_COLOR="\[\033[38;5;35m\]"
-JOB_COLOR="\[\033[38;5;33m\]"
-PATH_COLOR="\[\033[38;5;33m\]"
-LINE_COLOR="\[\033[38;5;248m\]"
-RESET_COLOR="\[\033[0m\]"
+# ANSI 256 color escapes — wrapped in \[ \] so bash counts prompt length correctly
+BRACKET_COLOR='\[\033[38;5;35m\]'
+CLOCK_COLOR='\[\033[38;5;35m\]'
+JOB_COLOR='\[\033[38;5;33m\]'
+PATH_COLOR='\[\033[38;5;33m\]'
+LINE_COLOR='\[\033[38;5;248m\]'
+RESET_COLOR='\[\033[0m\]'
 
-# Line characters (UTF-8)
+# Line/box drawing characters (UTF-8)
 LINE_BOTTOM="─"
 LINE_BOTTOM_CORNER="└"
 LINE_UPPER_CORNER="┌"
 LINE_STRAIGHT="─"
 
-# Misc symbols
+# Misc symbols used in prompt
 END_CHARACTER="|"
 WHITE_SPACE=" "
 HASH="#"
 
-# Prompt update function
+# Function that builds PS1 and is invoked before each prompt
 set_prompt() {
-    local emoji exit_code_symbol=""
-    local last_code=$?
+  # Capture the exit code of the last command that ran before the prompt
+  local last_code=$?
+  local exit_code_symbol=""
+  local emoji
 
-    [[ $last_code -ne 0 ]] && exit_code_symbol="❌($last_code) "
-    emoji="$(RANDOM_EMOJI)"
+  # If previous command failed, show an exit code marker
+  if [[ $last_code -ne 0 ]]; then
+    exit_code_symbol="❌(${last_code}) "
+  fi
 
-    PS1="$CLOCK_COLOR\t$WHITE_SPACE"
-    PS1+="$BRACKET_COLOR[$JOB_COLOR\j$BRACKET_COLOR]$WHITE_SPACE"
-    PS1+="$exit_code_symbol\H: $PATH_COLOR\w$RESET_COLOR$WHITE_SPACE\[$emoji\]\n"
-    PS1+="$END_CHARACTER$RESET_COLOR$HASH$WHITE_SPACE"
+  # choose a random emoji for this prompt
+  emoji="$(RANDOM_EMOJI)"
+
+  # Build PS1 piece by piece. Note: color variables already include \[ \]
+  PS1="${CLOCK_COLOR}\t${WHITE_SPACE}"                                 # time
+  PS1+="${BRACKET_COLOR}[${JOB_COLOR}\j${BRACKET_COLOR}]${WHITE_SPACE}" # job count in brackets
+  PS1+="${exit_code_symbol}\h: ${PATH_COLOR}\w${RESET_COLOR}${WHITE_SPACE}" # host: cwd
+  PS1+="${emoji}\n"                                                      # emoji + newline
+  PS1+="${END_CHARACTER}${RESET_COLOR}${HASH}${WHITE_SPACE}"             # prompt start
+
+  # export PS1 for interactive shells
+  export PS1
 }
 
-# Set the prompt before each command
-PROMPT_COMMAND="set_prompt")
-    # Fallback if mapfile didn't work
-    if [[ ${#EMOJIS[@]} -eq 0 ]]; then
-        read -ra EMOJIS <<< "$(cat "${SCRIPT_DIR}/emoticons")"
-    else
-        # Fallback emojis if file doesn't exist
-        EMOJIS=("😀" "😎" "🚀" "⭐" "🎉" "💻" "🔥" "✨")
-    fi
+# Register the prompt function to run before each prompt
+# Use a simple command name (no trailing paren)
+PROMPT_COMMAND='set_prompt'
 
-# Debug: uncomment next line to check array size
+# Debug helper (uncomment if needed)
 # echo "DEBUG: Loaded ${#EMOJIS[@]} emojis" >&2
-
-# Function to select a random emoji
-RANDOM_EMOJI() {
-    # Check if array has elements to prevent division by zero
-    if [[ ${#EMOJIS[@]} -gt 0 ]]; then
-        echo "${EMOJIS[RANDOM % ${#EMOJIS[@]}]}"
-    else
-        # Fallback if somehow still empty
-        echo "🤖"
-    fi
-}
-
-# ANSI 256 color escapes (properly wrapped in \[ \] for prompt alignment)
-BRACKET_COLOR="\[\033[38;5;35m\]"
-CLOCK_COLOR="\[\033[38;5;35m\]"
-JOB_COLOR="\[\033[38;5;33m\]"
-PATH_COLOR="\[\033[38;5;33m\]"
-LINE_COLOR="\[\033[38;5;248m\]"
-RESET_COLOR="\[\033[0m\]"
-
-# Line characters (UTF-8)
-LINE_BOTTOM="─"
-LINE_BOTTOM_CORNER="└"
-LINE_UPPER_CORNER="┌"
-LINE_STRAIGHT="─"
-
-# Misc symbols
-END_CHARACTER="|"
-WHITE_SPACE=" "
-HASH="#"
-
-# Prompt update function
-set_prompt() {
-    local emoji exit_code_symbol=""
-    local last_code=$?
-
-    [[ $last_code -ne 0 ]] && exit_code_symbol="❌($last_code) "
-    emoji="$(RANDOM_EMOJI)"
-
-    PS1="$CLOCK_COLOR\t$WHITE_SPACE"
-    PS1+="$BRACKET_COLOR[$JOB_COLOR\j$BRACKET_COLOR]$WHITE_SPACE"
-    PS1+="$exit_code_symbol\H: $PATH_COLOR\w$RESET_COLOR$WHITE_SPACE\[$emoji\]\n"
-    PS1+="$END_CHARACTER$RESET_COLOR$HASH$WHITE_SPACE"
-}
-
-# Set the prompt before each command
-PROMPT_COMMAND="set_prompt"
