@@ -3,36 +3,77 @@
   ansible.builtin.package:
     state: latest
     name:
-      - adb
-      - at
-      - bat
-      - busybox
-      - colordiff
-      - cron
-      - curl
-      - ethtool
-      - fastfetch
-      - fzf
-      - gcc
-      - git
-      - htop
-      - iperf
-      - iotop
-      - lsof
-      - mc
-      - nala
-      - ncdu
-      - net-tools
-      - nmap
-      - ranger
-      - rsync
-      - screen
-      - sshfs
-      - sudo
-      - tmux
-      - traceroute
-      - usbutils
-      - vim
-      - wget
-      - whois
-      - zoxide
+      # === SYSTEM ESSENTIALS ===
+      - sudo              # privilege escalation for non-root users
+      - cron              # task scheduler for automated jobs
+      - systemd-timesyncd # network time synchronization
+      
+      # === PROCESS & SYSTEM MONITORING ===
+      - htop              # interactive process viewer with better interface than top
+      - iotop             # disk I/O usage monitor by process
+      - lsof              # list open files and network connections
+      - tree              # display directory structure as tree
+      - psmisc            # additional process utilities (pstree, killall)
+      
+      # === NETWORK TOOLS ===
+      - curl              # command-line HTTP client for API calls and downloads
+      - wget              # non-interactive network downloader
+      - nmap              # network mapper for port scanning and discovery
+      - traceroute        # trace network packet routes
+      - whois             # domain and IP information lookup
+      - ethtool           # ethernet device configuration and status
+      - net-tools         # legacy networking tools (ifconfig, netstat)
+      - iperf3            # network bandwidth testing tool
+      - bind9-dnsutils    # DNS lookup utilities (dig, nslookup)
+      
+      # === FILE MANAGEMENT & NAVIGATION ===
+      - mc                # midnight commander dual-pane file manager
+      - ranger            # terminal-based file manager with vim-like keys
+      - ncdu              # disk usage analyzer with ncurses interface
+      - rsync             # efficient file synchronization and backup tool
+      - fzf               # fuzzy finder for command-line search
+      - zoxide            # smart cd command with frecency algorithm
+      - fd-find           # fast alternative to find command
+      - ripgrep           # fast text search tool, better than grep
+      
+      # === TEXT PROCESSING & VIEWING ===
+      - vim               # powerful text editor
+      - bat               # syntax-highlighted cat alternative
+      - colordiff         # colorized diff output
+      - jq                # JSON processor and formatter
+      - less              # pager for viewing files
+      
+      # === TERMINAL MULTIPLEXERS ===
+      - tmux              # terminal multiplexer for persistent sessions
+      # - screen            # older terminal multiplexer
+      
+      # === COMPRESSION & ARCHIVES ===
+      - unzip             # extract ZIP archives
+      - p7zip-full        # 7-Zip archive support
+      - tar               # archive utility (ADDED - ensure it's present)
+      
+      # === DEVELOPMENT TOOLS ===
+      - git               # distributed version control system
+      - gcc               # GNU compiler collection
+      - make              # build automation tool
+      - build-essential   # essential build tools package
+      
+      # === HARDWARE & USB TOOLS ===
+      - usbutils          # USB device utilities (lsusb)
+      - pciutils          # PCI device utilities (lspci)
+      - dmidecode         # hardware information from BIOS
+      
+      # === PACKAGE MANAGEMENT ===
+      - nala              # modern apt frontend with better UI
+      - apt-transport-https # HTTPS support for apt repositories
+      
+      # === SYSTEM INFO & MONITORING ===
+      - fastfetch         # system information display tool
+      - dstat             # system resource statistics
+      - iftop             # network bandwidth monitor
+      
+      # === FILESYSTEM TOOLS ===
+      - sshfs             # mount remote filesystems over SSH
+      
+      # === SCHEDULING ===
+      - at                # one-time task scheduler
