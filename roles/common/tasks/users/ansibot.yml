@@ -1,4 +1,9 @@
 ---
+- name: users | ansibot | create ansibot group
+  ansible.builtin.group:
+    name: ansibot
+    state: present
+
 - name: users | ansibot | create ansibot system user (no home)
   tags: always
   ansible.builtin.user:
