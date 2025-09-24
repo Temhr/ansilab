@@ -1,0 +1,178 @@
+# 1. 🔧 Shell Usability - Quality of life enhancements for navigating and editing
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias back='cd $OLDPWD'
+alias c='clear'
+alias cd..='cd ..'
+alias e='exit'
+alias h='history'
+alias j='jobs -l'
+alias paths='echo -e ${PATH//:/\\n}'
+alias q='exit'
+alias reload='source ~/.bashrc'
+alias watch='watch -d'
+alias which='type -a'
+
+# 2. 📁 File Management - Safer and faster file operations
+alias chgrp='chgrp --preserve-root' #Parenting changing perms on /
+alias chmod='chmod -c --preserve-root' #Parenting changing perms on /
+alias chown='chown --preserve-root' #Parenting changing perms on /
+alias cp='cp -iv'
+alias ln='ln -i'
+alias l='ls -lah --color=auto'
+alias l.='ls -lhFa --time-style=long-iso --color=auto'
+alias la='ls -A --color=auto'
+alias ll='ls -lhF --color=auto'
+alias lS='ls -lSh --color=auto'
+alias ls='ls -la --color=auto'
+alias ltr='ls -ltr --color=auto'
+alias lt='ls -lt --color=auto'
+alias mkdir='mkdir -pv'
+alias mv='mv -iv'
+alias rm='rm -I --preserve-root' #do not delete / or prompt if deleting more than 3 files at a time
+alias rmd='rm -r -i'
+alias tree='tree -C'
+
+# 3. 🧭 Navigation - Directory movement and management
+alias cdg='cd ~/Git'
+alias cdd='cd ~/Documents'
+alias cdl='cd ~/Downloads'
+alias cds='cd ~/Scripts'
+alias cdp='cd ~/Projects'
+alias cdtmp='cd /tmp'
+alias cdw='cd /var/www'
+alias ~='cd ~'
+
+# 4. 📜 File Viewing - Inspecting file contents and structure
+alias cat='bat --paging=never'  #Requires: bat
+alias diff='colordiff'
+alias egrep='egrep --colour=auto'
+alias ff='find . -type f -name'
+alias fgrep='fgrep --color=auto'
+alias finds='find . -type f -iname'
+alias grep='grep --color=auto'
+alias head='head -n 20'
+alias less='less -R'
+alias tail='tail -n 20'
+alias tlf='tail -f'
+
+# 5. 💣 System Safety - Dangerous command protections
+alias :q='echo "Wrong shell, friend 😄"'
+alias format='echo "Nope 😅"'
+
+# 6. 📡 Networking - Ping, ports, IPs, and interface info
+alias digg='dig +short'
+alias extip='curl icanhazip.com'
+alias hosts='cat /etc/hosts'
+alias http='curl -I'
+alias ipinfo='ip a'
+alias lsmount='mount | column -t'
+alias myip='curl ifconfig.me'
+alias netst='ss -tulpn'
+alias pingg='ping 8.8.8.8'
+alias ports='netstat -tulanp'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias traceroute='traceroute -I'
+alias weather='curl wttr.in'
+
+# 7. 🔥 System Monitoring - Processes, memory, load, services
+alias cpu='lscpu'
+alias df='df -h -x squashfs -x tmpfs -x devtmpfs'
+alias diskuse='du -h --max-depth=1'
+alias duh='du -sh *'
+alias load='uptime'
+alias mem='free -h'
+alias psu='ps auxf'
+alias topc='htop'
+alias watchps='watch "ps aux --sort=-%mem | head -n 10"'
+
+# 8. 🛠️ Nix Package Management - Quick install/update for common package managers
+alias nixb='nix build'
+alias nixc='nix-collect-garbage -d'
+alias nixd='nix develop'
+alias nixgc='nix store gc'
+alias nixrepl='nix repl'
+alias nixs='nix search'
+alias nixsh='nix shell'
+## Nix Shell
+alias nscowsay='nix shell nixpkgs#cowsay'
+## NixOS Shortcuts
+#alias hmswitch='home-manager switch --flake /home/temhr/nixlab'
+alias lboot='sudo nixos-rebuild boot --flake /home/temhr/nixlab && sudo reboot'
+alias lfup='nix flake update --flake /home/temhr/nixlab'
+alias lswitch='sudo nixos-rebuild switch --flake /home/temhr/nixlab'
+alias ltest='sudo nixos-rebuild test --flake /home/temhr/nixlab'
+alias rboot='sudo nixos-rebuild boot --flake github:temhr/nixlab && sudo reboot'
+alias rfup='bash /home/temhr/nixlab/home/common/files/scripts/auto-update-flake.sh'
+alias rswitch='sudo nixos-rebuild switch --flake github:temhr/nixlab'
+alias rtest='sudo nixos-rebuild test --flake github:temhr/nixlab'
+alias nlist='nixos-rebuild list-generations'
+
+# 9. 🧼 Cleanup & Temp - Cache clearing, temp management
+alias clr='clear && printf "\e[3J"'
+alias flushmem='sync; echo 3 | sudo tee /proc/sys/vm/drop_caches'
+alias logs='journalctl -xe'
+alias rmcache='rm -rf ~/.cache/*'
+
+# 10. 📦 Archives - Compression/decompression shortcuts
+alias extract='a() { case $1 in *.tar.bz2) tar xvjf $1 ;; *.tar.gz) tar xvzf $1 ;; *.zip) unzip $1 ;; *.rar) unrar x $1 ;; *) echo "unknown format" ;; esac }; a'
+alias lz='ls *.tar.gz *.zip *.rar *.xz 2>/dev/null'
+alias targz='tar -czvf'
+alias untar='tar -xvf'
+alias untargz='tar -xzvf'
+alias unzipf='unzip'
+alias zipf='zip -r'
+
+# 11. 🧪 System Info - Fast access to system/hardware info
+alias arch='uname -m'
+alias drives='lsblk -f'
+alias journal='journalctl -b -p err'
+alias kernel='uname -r'
+alias mountlist='mount | column -t'
+alias os='cat /etc/os-release'
+alias pci='lspci'
+alias uptime='uptime -p'
+alias usb='lsusb'
+
+# 12. 🧙‍♂️ Power Tools - Powerful command combos & productivity boosters
+alias cheat='curl cheat.sh'
+alias please='sudo $(history -p !!)'
+alias serve='python3 -m http.server'
+alias timestamp='date +"%Y-%m-%d_%H-%M-%S"'
+alias uuid='uuidgen'
+
+# 13. 🧰 Dev & Git Helpers - Development + scripting helpers
+alias ga='git add .'
+alias gc='git commit -m'
+alias gd='git diff'
+alias gl='git pull'
+alias gp='git push'
+alias gr='git remote -v'
+alias greset='git reset --hard origin/main && git pull --rebase'
+alias gs='git status'
+alias gslog='git log --oneline --graph --decorate'
+alias pyvenv='python3 -m venv .venv && source .venv/bin/activate'
+alias runpy='python3 -u'
+alias s='code .'
+alias svim='sudo vim'
+alias v='nvim'
+
+## Check video drivers in use
+alias vdr='lspci -n -n -k | grep -A 2 -e VGA -e 3D'
+## Check active GPU driver
+alias gpudr='glxinfo | grep -e OpenGL.vendor -e OpenGL.renderer'
+## List available and default GPU
+alias gpu='switcherooctl list'
+
+## get top process eating memory
+alias mem5='ps auxf | sort -nr -k 4 | head -5'
+alias mem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias cpu5='ps auxf | sort -nr -k 3 | head -5'
+alias cpu10='ps auxf | sort -nr -k 3 | head -10'
+
+## List largest directories (aka "ducks")
+alias dir5='du -cksh * | sort -hr | head -n 5'
+alias dir10='du -cksh * | sort -hr | head -n 10'
