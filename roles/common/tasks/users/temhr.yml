@@ -1,0 +1,27 @@
+---
+- name: users | Temhr | create system user with sudo
+  tags: always,temhr,users
+  ansible.builtin.user:
+    name: temhr
+    group: temhr                    # Primary group (creates a group named temhr)
+    shell: /bin/bash                # Login shell
+    create_home: true               # Automatically create /home/temhr
+    state: present                  # Ensure the user exists
+
+- name: users | Temhr | ensure home directory permissions
+  tags: temhr,users
+  ansible.builtin.file:
+    path: /home/temhr
+    state: directory
+    owner: temhr
+    group: temhr
+    mode: '0770'                    # Full access for user+group, none for others
+
+- name: users | Temhr | deploy sudoers file
+  tags: temhr,settings,sudo,system
+  ansible.builtin.copy:
+    src: files/users/sudoers_temhr  # Sudoers file in your repo
+    dest: /etc/sudoers.d/temhr      # Installed in sudoers directory
+    owner: root
+    group: root
+    mode: '0440'                    # Required mode for sudoers file
