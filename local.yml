@@ -1,5 +1,6 @@
 ---
-- name: tasks to complete before running roles
+# Pre-run: update cache + upgrade packages before applying roles
+- name: Pre-run apt-update and apt-upgrade
   hosts: all
   tags: always
   become: true
@@ -7,13 +8,32 @@
     - name: pre-run | update package cache and upgrade all packages
       tags: always
       ansible.builtin.apt: 
-        update_cache: yes 
-        upgrade: safe
-      changed_when: false
+        update_cache: yes           # Refresh the package index
+        upgrade: yes                # Allows upgrade removals
+      changed_when: false           # Don't report changes for idempotence
 
-# run roles
-- hosts: all
-  tags: base
+# Running Playbooks
+- name: Baseline role for all hosts
+  hosts: all
+  tags: always,base,common
   become: true
   roles: 
-     - common
+    - common
+
+# Post-run cleanup to keep system tidy
+- name: End of run cleanup
+  hosts: all
+  tags: always
+  become: true
+  tasks:
+    - name: cleanup package cache
+      tags: always
+      ansible.builtin.apt:
+        autoclean: yes             # Remove outdated package files from cache
+      changed_when: false          # Don't mark as changed
+
+    - name: autoremove orphan packages
+      tags: always
+      ansible.builtin.apt:
+        autoremove: yes            # Remove unused dependencies
+        purge: yes                 # Purge configs of removed packages
