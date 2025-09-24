@@ -19,7 +19,6 @@ ansible-pull implementation for my mutable Linux systems, VMs, and containers
       - `main.yml` - Task list
       - **systemd/** - *Automated system services*
       - **users/** - *Creates and defines users*
-        - `ansibot.yml` - ansibot system user
 
 ---
 
