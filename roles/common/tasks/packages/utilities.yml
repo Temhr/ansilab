@@ -5,6 +5,7 @@
     name:
       - adb
       - at
+      - bat
       - busybox
       - colordiff
       - cron
