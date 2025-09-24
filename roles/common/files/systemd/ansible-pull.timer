@@ -1,5 +1,6 @@
 [Unit]
 Description=Run ansible-pull every 30 minutes
+Requires=ansible-pull.service
 
 [Timer]
 OnBootSec=5min                                  # First run occurs 5 minutes after the system boots
