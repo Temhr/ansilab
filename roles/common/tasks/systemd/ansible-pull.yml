@@ -27,5 +27,6 @@
   become: true
   ansible.builtin.systemd:
     name: ansible-pull.timer
-    enabled: true                             # Enable timer on boot
-    state: started                            # Start timer now
+    enabled: true
+    state: started
+    daemon_reload: true                       # important after updating unit files
