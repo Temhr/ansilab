@@ -1,4 +1,10 @@
 ---
+- name: users | Temhr | create temhr group
+  tags: always,temhr,users
+  ansible.builtin.group:
+    name: temhr
+    state: present
+
 - name: users | Temhr | create system user with sudo
   tags: always,temhr,users
   ansible.builtin.user:
