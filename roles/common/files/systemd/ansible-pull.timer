@@ -1,0 +1,11 @@
+[Unit]
+Description=Run ansible-pull every 30 minutes
+
+[Timer]
+OnBootSec=5min                                  # First run occurs 5 minutes after the system boots
+OnUnitActiveSec=30min                           # Repeat the timer every 30 minutes after the last execution
+AccuracySec=1min                                # Allow systemd some flexibility (~1 min) for scheduling
+Persistent=false                                # If the system was off, don't run the missed jobs immediately when back online
+
+[Install]
+WantedBy=timers.target                          # Enable the timer by default with the standard timers.target
