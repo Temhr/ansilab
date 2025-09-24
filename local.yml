@@ -1,6 +1,19 @@
 ---
-- name: Apply common configuration
-  hosts: all                         # Matches all hosts in inventory
+- name: tasks to complete before running roles
+  hosts: all
+  tags: always
   become: true
-  roles:
-    - common                         # Apply the common role to every host
+  pre_tasks:
+    - name: pre-run | update package cache and upgrade all packages
+      tags: always
+      ansible.builtin.apt: 
+        update_cache: yes 
+        upgrade: safe
+      changed_when: false
+
+# run roles
+- hosts: all
+  tags: base
+  become: true
+  roles: 
+     - common
