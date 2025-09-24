@@ -1,13 +1,6 @@
 ---
-- name: Apply common configuration        # First play: baseline setup for all hosts
-  hosts: all                              # Target every host in inventory
-  become: true                            # Run tasks with sudo
-  roles:                                  # Roles to apply
-    - common                              # Common role: base system config
-    
-- name: Configure hosts/group machines    # Second play: specific to target
-  hosts:                                  # Target hosts and groups
-    -                                     # List of hosts & groups
-  become: true                            # Run tasks with sudo
-  roles:                                  # Apply these roles
-    -                                     # List of Roles
+- name: Apply common configuration
+  hosts: all                         # Matches all hosts in inventory
+  become: true
+  roles:
+    - common                         # Apply the common role to every host
