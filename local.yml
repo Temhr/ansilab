@@ -1,7 +1,21 @@
 ---
-- name: Apply common configuration
-  hosts: all
-  become: true
+- name: Apply common configuration        # First play: baseline setup for all hosts
+  hosts: all                              # Target every host in inventory
+  become: true                            # Run tasks with sudo
+  roles:                                  # Roles to apply
+    - common                              # Common role: base system config
+    
+- name: Configure hosts/group machines    # Second play: specific to target
+  hosts:                                  # Target hosts and groups
+    -                                     # List of hosts & groups
+  become: true                            # Run tasks with sudo
+  roles:                                  # Apply these roles
+    -                                     # List of Roles
 
-  roles:
-    - common
+- name: Configure localhost only          # Fourth play: special case for localhost
+  hosts: localhost                        # Target only the local machine
+  become: true                            # Run tasks with sudo
+  tasks:                                  # Inline tasks (instead of roles)
+    - name: Print debug message           # Simple test/debug task
+      ansible.builtin.debug:              # Debug module outputs a message
+        msg: "Configuring localhost with inline tasks"
