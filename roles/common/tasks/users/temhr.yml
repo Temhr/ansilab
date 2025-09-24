@@ -59,4 +59,4 @@
     - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
     - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
     - { src: 'bash/bash_functions', dest: '.bash/bash_functions' }
-    - { src: 'bash/emoticons', dest: '.bash/emoticons' }
+    - { src: 'bash/emoticons', dest: 'emoticons' }
