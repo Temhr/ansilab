@@ -7,3 +7,8 @@
 
   # Setup the ansible environment
   - ansible.builtin.import_tasks: systemd/ansible-pull.yml
+  
+  rescue:
+    - name: Log the error and continue
+      ansible.builtin.debug:
+        msg: "A task in this block failed, but playbook continues."
