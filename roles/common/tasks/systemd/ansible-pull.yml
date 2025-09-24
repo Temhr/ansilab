@@ -1,0 +1,31 @@
+- name: systemd | ansibot | install ansible-pull service + timer
+  tags: ansibot,systemd,automation
+  become: true
+  ansible.builtin.copy:
+    src: files/systemd/ansible-pull.service   # service unit file in repo
+    dest: /etc/systemd/system/ansible-pull.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: systemd | ansibot | install ansible-pull timer
+  tags: ansibot,systemd,automation
+  become: true
+  ansible.builtin.copy:
+    src: files/systemd/ansible-pull.timer     # timer unit file in repo
+    dest: /etc/systemd/system/ansible-pull.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: systemd | ansibot | reload systemd
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true                       # Reload systemd so new units are recognized
+
+- name: systemd | ansibot | enable and start timer
+  become: true
+  ansible.builtin.systemd:
+    name: ansible-pull.timer
+    enabled: true                             # Enable timer on boot
+    state: started                            # Start timer now
