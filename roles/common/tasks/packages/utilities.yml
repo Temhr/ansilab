@@ -1,0 +1,35 @@
+- name: packages | utilities | install packages
+  tags: packages,utilities,install
+  ansible.builtin.package:
+    state: latest
+    name:
+      - adb
+      - at
+      - busybox
+      - colordiff
+      - cron
+      - curl
+      - ethtool
+      - fastfetch
+      - gcc
+      - git
+      - htop
+      - iperf
+      - iotop
+      - lsof
+      - mc
+      - nala
+      - ncdu
+      - net-tools
+      - nmap
+      - ranger
+      - rsync
+      - screen
+      - sshfs
+      - sudo
+      - tmux
+      - traceroute
+      - usbutils
+      - vim
+      - wget
+      - whois
