@@ -32,7 +32,7 @@
     state: directory
     owner: ansibot
     group: ansibot
-    mode: '0700'
+    mode: '0770'
 
 - name: users | ansibot | temhr | add to ansibot group
   tags: temhr,ansibot,users
