@@ -5,7 +5,7 @@
     name: temhr
     state: present
 
-- name: users | Temhr | create system user with sudo
+- name: users | Temhr | create  user with sudo
   tags: always,temhr,users
   ansible.builtin.user:
     name: temhr
