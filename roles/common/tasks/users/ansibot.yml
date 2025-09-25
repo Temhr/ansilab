@@ -12,18 +12,8 @@
     group: ansibot                  # primary group
     system: true                    # system account (UID < 1000)
     shell: /usr/sbin/nologin        # disable login
-    home: /var/lib/ansibot          # working dir as home
     create_home: true              # don’t auto-create home
     state: present
-
-- name: users | ansibot | working directory
-  tags: ansibot,users
-  ansible.builtin.file:
-    path: /var/lib/ansibot          # ansibot working dir
-    state: directory
-    owner: ansibot
-    group: ansibot
-    mode: '0770'
 
 - name: users | ansibot | ensure ansible temp dir exists
   tags: ansibot,users
