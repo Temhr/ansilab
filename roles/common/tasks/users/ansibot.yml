@@ -28,8 +28,8 @@
   ansible.builtin.copy:
     src: files/users/sudoers_ansibot                            # Source file in repo with sudo rules
     dest: /etc/sudoers.d/ansibot                                # Install into system sudoers directory
-    owner: root                                                 # File owned by root
-    group: root                                                 # Group owned by root
+    owner: ansibot                                              # File owned by root
+    group: ansibot                                              # Group owned by root
     mode: '0440'                                                # Read-only, required for sudoers
 
 - name: users | ansibot | working directory
