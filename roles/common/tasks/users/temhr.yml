@@ -23,14 +23,15 @@
     group: temhr
     mode: '0770'                    # Full access for user+group, none for others
 
-- name: users | Temhr | deploy sudoers file
-  tags: temhr,settings,sudo,system
+- name: users | Temhr | add sudoers file
+  tags: settings,temhr,sudo,system,users
   ansible.builtin.copy:
-    src: files/users/sudoers_temhr  # Sudoers file in your repo
-    dest: /etc/sudoers.d/temhr      # Installed in sudoers directory
-    owner: root
-    group: root
-    mode: '0440'                    # Required mode for sudoers file
+    dest: /etc/sudoers.d/temhr                                  # Install into system sudoers directory
+    owner: root                                                 # File owned by root
+    group: root                                                 # Group owned by root
+    mode: '0440'                                                # Read-only, required for sudoers
+    content: |
+      temhr ALL=(ALL) NOPASSWD:ALL
 
 - name: users | Temhr | create default home directories
   tags: dotfiles,users,temhr
