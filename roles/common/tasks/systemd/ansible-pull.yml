@@ -5,8 +5,8 @@
   ansible.builtin.copy:
     src: files/systemd/ansible-pull.service   # Service unit in repo
     dest: /etc/systemd/system/ansible-pull.service
-    owner: root
-    group: root
+    owner: ansibot
+    group: ansibot
     mode: '0644'
 
 - name: systemd | ansibot | install ansible-pull timer
@@ -15,8 +15,8 @@
   ansible.builtin.copy:
     src: files/systemd/ansible-pull.timer     # Timer unit in repo
     dest: /etc/systemd/system/ansible-pull.timer
-    owner: root
-    group: root
+    owner: ansibot
+    group: ansibot
     mode: '0644'
 
 - name: systemd | ansibot | reload systemd to pick up new units
