@@ -13,7 +13,7 @@
     system: true                    # system account (UID < 1000)
     shell: /usr/sbin/nologin        # disable login
     home: /var/lib/ansibot          # working dir as home
-    create_home: false              # don’t auto-create home
+    create_home: true              # don’t auto-create home
     state: present
 
 - name: users | ansibot | working directory
