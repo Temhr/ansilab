@@ -1,1 +1,0 @@
-ansibot ALL=(ALL) NOPASSWD:/usr/bin/ansible-pull  # minimal sudoers file
