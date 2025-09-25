@@ -31,4 +31,4 @@
     state: directory                                            # Ensure it's a directory
     owner: ansibot                                              # Owned by ansibot user
     group: ansibot                                              # Owned by ansibot group
-    mode: '0750'                                                # Only ansibot+group can enter, others denied
+    mode: '0770'                                                # Only ansibot+group can enter, others denied
