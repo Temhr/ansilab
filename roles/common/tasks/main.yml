@@ -6,7 +6,7 @@
   - ansible.builtin.import_tasks: users/ansibot.yml
 
   # Setup the ansible automation
-  - ansible.builtin.import_tasks: systemd/ansible-pull.yml
+  - ansible.builtin.import_tasks: automation/ansible-pull.yml
 
   # install packages
   - ansible.builtin.import_tasks: packages/utilities.yml
