@@ -5,13 +5,13 @@
     name: ansibot
     state: present
 
-# Add temhr to the ansibot group
 - name: users | ansibot | temhr | add to ansibot group
   tags: temhr,ansibot,users
   ansible.builtin.user:
     name: temhr
-    groups: ansibot                                             # Add to ansibot group
-    append: true                                                # Ensure existing groups remain intact
+    group: temhr                  # Ensure primary group stays temhr
+    groups: ansibot               # Add to ansibot supplementary group
+    append: true                  # Don’t overwrite existing group memberships
 
 - name: users | ansibot | create ansibot system user (no home)
   tags: always,ansibot,users
