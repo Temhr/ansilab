@@ -1,10 +1,10 @@
 ---
-# 🛠️ System Setup: Cron jobs for ansibot
+# 🛠️ Automation: Cron jobs for ansibot
 
 # ───────────────────────────────
-# 1. Regular System Updates
+# 1. Automation Updates
 # ───────────────────────────────
-- name: system setup | cron | Quarter-daily nala update & apt upgrade
+- name: automation | cron | Quarter-daily nala update & apt upgrade
   ansible.builtin.cron:
     name: "quarter-daily system update"
     user: ansibot
@@ -19,7 +19,7 @@
 # ───────────────────────────────
 # 2. Configuration Autopull
 # ───────────────────────────────
-- name: system setup | cron | Ansible autopull setup
+- name: automation | cron | Ansible autopull setup
   ansible.builtin.cron:
     name: "ansible autopull provision"
     user: ansibot
@@ -32,7 +32,7 @@
 # ───────────────────────────────
 # 3. Log Management
 # ───────────────────────────────
-- name: system setup | cron | Weekly Tuesday log archive & reset
+- name: automation | cron | Weekly Tuesday log archive & reset
   ansible.builtin.cron:
     name: "weekly log archive & cleanup"
     user: ansibot
@@ -44,7 +44,7 @@
       /var/lib/ansibot/log-$(uname -n)-$(date +\%Y-\%m-\%d).txt &&
       rm -f /var/lib/ansibot/Ansi.txt /var/lib/ansibot/AnsiLog.txt"
 
-- name: system setup | cron | Global log rotation (keep 7 days)
+- name: automation | cron | Global log rotation (keep 7 days)
   ansible.builtin.cron:
     name: "daily log cleanup"
     user: ansibot
@@ -54,7 +54,7 @@
       find /var/lib/ansibot -maxdepth 1 -type f
       -name "log-*.txt" -mtime +7 -delete
 
-- name: system setup | cron | Monthly log archive (compress before delete)
+- name: automation | cron | Monthly log archive (compress before delete)
   ansible.builtin.cron:
     name: "monthly log archive"
     user: ansibot
@@ -68,7 +68,7 @@
 # ───────────────────────────────
 # 4. Service Handling
 # ───────────────────────────────
-- name: system setup | cron | Ensure cron service is running
+- name: automation | cron | Ensure cron service is running
   ansible.builtin.systemd_service:
     name: cron
     enabled: true
@@ -77,7 +77,7 @@
 # ───────────────────────────────
 # 5. Cleanup on Boot
 # ───────────────────────────────
-- name: system setup | cron | Cleanup ansible cache on reboot
+- name: automation | cron | Cleanup ansible cache on reboot
   ansible.builtin.cron:
     name: "ansible cache refresh at boot"
     user: ansibot
