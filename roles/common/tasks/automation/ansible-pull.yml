@@ -1,0 +1,45 @@
+---
+- name: system setup | cron | Quarter-daily nala update / apt upgrade
+  ansible.builtin.cron:
+    name: "ansible quarter daily"
+    user: ansibot
+    hour: "*/6"
+    minute: 0
+    job: "/usr/bin/date >> /var/lib/ansibot/Ansi.txt && /usr/bin/sudo /usr/bin/nala update >> /var/lib/ansibot/Ansi.txt 2>&1 && /usr/bin/sudo /usr/bin/apt upgrade -y >> /var/lib/ansibot/Ansi.txt 2>&1 && /usr/bin/sudo /usr/bin/apt autoremove -y >> /var/lib/ansibot/Ansi.txt 2>&1"
+
+- name: system setup | cron | Ansible autopull setup
+  ansible.builtin.cron:
+    name: "ansible provision"
+    user: ansibot
+    minute: 15
+    job: "/usr/bin/ansible-pull -o -U https://github.com/Temhr/Ansi.git >> /var/lib/ansibot/AnsiLog.txt 2>&1"
+
+- name: system setup | cron | Weekly Tuesday log store/delete
+  ansible.builtin.cron:
+    name: "ansible weekly delete"
+    user: ansibot
+    weekday: 2   # Tuesday
+    hour: 7
+    minute: 35
+    job: 'sh -c "cp /var/lib/ansibot/Ansi.txt /var/lib/ansibot/log-$(uname -n)-$(date +\%Y-\%m-\%d).txt && rm -f /var/lib/ansibot/Ansi.txt /var/lib/ansibot/AnsiLog.txt"'
+
+- name: system setup | cron | Global cron log rotate/cleanup (keep 7 days)
+  ansible.builtin.cron:
+    name: "ansible log rotate"
+    user: ansibot
+    hour: 0
+    minute: 30
+    job: 'find /var/lib/ansibot -maxdepth 1 -type f -name "log-*.txt" -mtime +7 -delete'
+
+- name: system setup | cron | start cron service
+  ansible.builtin.systemd_service:
+    name: cron
+    enabled: true
+    state: started
+
+- name: system setup | cron | schedule ansible cleanup at boot
+  ansible.builtin.cron:
+    name: "ansible refresh at boot"
+    user: ansibot
+    special_time: reboot
+    job: "/bin/rm -rf /var/lib/ansibot/.ansible"
