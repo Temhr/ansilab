@@ -28,7 +28,7 @@
 - name: users | ansibot | ensure ansible temp dir exists
   tags: ansibot,users
   ansible.builtin.file:
-    path: /var/lib/ansibot/.ansible/tmp
+    path: /home/ansibot/.ansible/tmp
     state: directory
     owner: ansibot
     group: ansibot
