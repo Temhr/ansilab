@@ -6,7 +6,7 @@
     state: present
 
 # Add temhr to the ansibot group
-- name: users | temhr | add to ansibot group
+- name: users | ansibot | temhr | add to ansibot group
   tags: temhr,ansibot,users
   ansible.builtin.user:
     name: temhr
