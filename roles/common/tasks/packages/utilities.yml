@@ -37,7 +37,7 @@
       - ripgrep           # fast text search tool, better than grep
       
       # === TEXT PROCESSING & VIEWING ===
-      - vim               # powerful text editor
+      - neovim               # powerful text editor
       - bat               # syntax-highlighted cat alternative
       - colordiff         # colorized diff output
       - jq                # JSON processor and formatter
