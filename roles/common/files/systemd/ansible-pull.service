@@ -9,8 +9,4 @@ User=ansibot                                                # Run as the 'ansibo
 Group=ansibot                                               # Run with primary group 'ansibot' (safer than root)
 ExecStart=/usr/bin/ansible-pull \                           # Main command to run ansible-pull
   -U https://github.com/temhr/ansilab.git \                 # URL of Git repository to pull from
-  -C main \                                                 # Branch to checkout (main)
-  -d /var/lib/ansibot \                                     # Directory to clone repo and execute playbooks
-  -i localhost, \                                           # Inline inventory: target only localhost
-  local.yml                                                 # Playbook file to execute
 WorkingDirectory=/var/lib/ansibot                           # Set working directory for the process
