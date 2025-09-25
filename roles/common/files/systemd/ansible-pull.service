@@ -8,5 +8,4 @@ Type=oneshot                                                # Run the service on
 User=ansibot                                                # Run as the 'ansibot' system user
 Group=ansibot                                               # Run with primary group 'ansibot' (safer than root)
 ExecStart=/usr/bin/ansible-pull \                           # Main command to run ansible-pull
-  -U https://github.com/temhr/ansilab.git \                 # URL of Git repository to pull from
-WorkingDirectory=/var/lib/ansibot                           # Set working directory for the process
+  -U https://github.com/temhr/ansilab.git                   # URL of Git repository to pull from
