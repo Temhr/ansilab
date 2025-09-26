@@ -11,10 +11,10 @@
     hour: "*/6"
     minute: 0
     job: >
-      /usr/bin/date >> /var/lib/ansibot/Ansi.txt &&
-      /usr/bin/sudo /usr/bin/nala update >> /home/ansibot/Ansi.txt 2>&1 &&
-      /usr/bin/sudo /usr/bin/apt upgrade -y >> /home/ansibot/Ansi.txt 2>&1 &&
-      /usr/bin/sudo /usr/bin/apt autoremove -y >> /home/ansibot/Ansi.txt 2>&1
+      /usr/bin/date >> /home/ansibot/ansibot/apt.log &&
+      /usr/bin/sudo /usr/bin/nala update >> /home/ansibot/apt.log 2>&1 &&
+      /usr/bin/sudo /usr/bin/apt upgrade -y >> /home/ansibot/apt.log 2>&1 &&
+      /usr/bin/sudo /usr/bin/apt autoremove -y >> /home/ansibot/apt.log 2>&1
 
 # ───────────────────────────────
 # 2. Configuration Autopull
@@ -27,7 +27,7 @@
     job: >
       /usr/bin/ansible-pull -o
       -U https://github.com/Temhr/ansilab.git
-      >> /home/ansibot/AnsiLog.txt 2>&1
+      >> /home/ansibot/ansi.log 2>&1
 
 # ───────────────────────────────
 # 3. Log Management
@@ -40,9 +40,9 @@
     hour: 7
     minute: 35
     job: >
-      sh -c "cp /home/ansibot/Ansi.txt
+      sh -c "cp /home/ansibot/apt.log
       /home/ansibot/log-$(uname -n)-$(date +\%Y-\%m-\%d).txt &&
-      rm -f /home/ansibot/Ansi.txt /home/ansibot/AnsiLog.txt"
+      rm -f /home/ansibot/apt.log /home/ansibot/ansi.log"
 
 - name: automation | cron | Global log rotation (keep 7 days)
   ansible.builtin.cron:
