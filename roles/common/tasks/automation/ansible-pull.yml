@@ -11,7 +11,7 @@
     hour: "*/6"
     minute: 0
     job: >
-      /usr/bin/date >> /home/ansibot/ansibot/apt.log &&
+      /usr/bin/date >> /home/ansibot/apt.log &&
       /usr/bin/sudo /usr/bin/nala update >> /home/ansibot/apt.log 2>&1 &&
       /usr/bin/sudo /usr/bin/apt upgrade -y >> /home/ansibot/apt.log 2>&1 &&
       /usr/bin/sudo /usr/bin/apt autoremove -y >> /home/ansibot/apt.log 2>&1
