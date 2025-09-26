@@ -8,9 +8,9 @@
     - name: pre-run | update package cache and upgrade all packages
       tags: always
       ansible.builtin.apt: 
-        update_cache: yes           # Refresh the package index
-        upgrade: yes                # Allows upgrade removals
-      changed_when: false           # Don't report changes for idempotence
+        update_cache: yes             # Refresh the package index
+        upgrade: safe                 # Disallows upgrade removals
+      changed_when: false             # Don't report changes for idempotence
 
 # Running Playbooks
 - name: Baseline role for all hosts
