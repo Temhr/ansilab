@@ -5,7 +5,7 @@
     name: ansibot
     state: present
 
-- name: users | ansibot | create ansibot system user (with working dir as home)
+- name: users | ansibot | create ansibot system user (with home dir)
   tags: always,ansibot,users
   ansible.builtin.user:
     name: ansibot
