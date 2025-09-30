@@ -15,8 +15,17 @@
     create_home: true              # don’t auto-create home
     state: present
 
-- name: users | ansibot | ensure ansible temp dir exists
-  tags: ansibot,users
+- name: users | ansibot | ansibot home dir permissions
+  tags: always,ansibot,users
+  ansible.builtin.file:
+    path: /home/ansibot
+    state: directory
+    owner: ansibot
+    group: ansibot
+    mode: '0770'
+    
+- name: users | ansibot | ensure ansibot temp dir exists
+  tags: always,ansibot,users
   ansible.builtin.file:
     path: /home/ansibot/.ansible/tmp
     state: directory
@@ -25,14 +34,14 @@
     mode: '0770'
 
 - name: users | ansibot | temhr | add to ansibot group
-  tags: temhr,ansibot,users
+  tags: always,temhr,ansibot,users
   ansible.builtin.user:
     name: temhr
     groups: ansibot                 # add supplementary group
     append: true                    # preserve existing groups
 
 - name: users | ansibot | add sudoers file
-  tags: settings,ansibot,sudo,system,users
+  tags: always,settings,ansibot,sudo,system,users
   ansible.builtin.copy:
     dest: /etc/sudoers.d/ansibot
     owner: root
