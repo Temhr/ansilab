@@ -74,6 +74,8 @@
       
       # === FILESYSTEM TOOLS ===
       - sshfs             # mount remote filesystems over SSH
+      - spice-vdagent     # enable copy/paste and USB redirection in virt-guest
+      - spice-webdavd     # enable file sharing in virt-guest
       
       # === SCHEDULING ===
       - at                # one-time task scheduler
